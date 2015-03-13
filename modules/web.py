@@ -18,18 +18,19 @@ class ExpireSession(Resource):
         request.getSession().expire()
 
 
-class IUsername(Interface):
-    value = Attribute("A string that holds the username.")
+class ISession(Interface):
+    username = Attribute("A string that holds the username.")
+
+    get_username = Attribute("a method to get the username")
+
+    set_username = Attribute("a method to set the username")
 
 
-class UserName(object):
-    implements(IUsername)
+class MccpSession(object):
+    implements(ISession)
 
     def __init__(self, session):
-        self.value = ''
-
-    def set_name(self, name):
-        self.value = name
+        self.username = ''
 
 
 class RcRoot(Resource):
@@ -44,20 +45,14 @@ class RcRoot(Resource):
         return Resource.getChild(self, name, request)
 
     def render_GET(self, request):
-        session = request.getSession()
-        username = IUsername(session)
-        if username.value == '':
-            username.value = 'wombat+' + str(os.urandom(8))
+        session_id = request.getSession()
+        session = ISession(session_id)
+        if session.username == '':
+            session.username = 'wombat+' + str(os.urandom(8))
 
-        content = '<html>' \
-                  '<head>' \
-                  '<title>MCCP: Home</title>' \
-                  '</head>' \
-                  '<body>' \
-                  'moo ' + username.value + \
-                  '</body>' \
-                  '</html>'
-        return content
+        page = WebPage('Home', '', 'moo ' + session.username)
+
+        return page.render()
 
 
 class RcStatus(Resource):
@@ -81,8 +76,7 @@ class MccpWeb():
         factory.putChild('status', RcStatus(mc_process))
         factory.putChild("expire", ExpireSession())
         self.__site = server.Site(factory)
-        registerAdapter(UserName, Session, IUsername)
-
+        registerAdapter(MccpSession, Session, ISession)
 
     def start(self):
         reactor.listenTCP(self.__web_port, self.__site)
