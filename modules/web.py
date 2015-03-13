@@ -7,7 +7,7 @@ from twisted.web.resource import Resource
 from twisted.web.server import Session
 from zope.interface import Interface, Attribute, implements
 
-from modules.page import WebPage
+from modules.page import WebPage, WebTemplate
 
 
 __author__ = 'drazisil'
@@ -44,14 +44,14 @@ class RcRoot(Resource):
         session_id = request.getSession()
         session = ISession(session_id)
         if session.username == '':
-            session.username = 'wombat+' + str(os.urandom(8))
+            session.username = str(os.urandom(16))
 
-        page = WebPage('Home', '', 'moo ' + session.username)
+        page = WebPage('Home', '', WebTemplate('wombat ' + session.username).render())
 
         return page.render()
 
 
-class RcStatus(Resource):
+class RcPage(Resource):
     # isLeaf = True
 
     def __init__(self, mc_server):
@@ -69,8 +69,8 @@ class MccpWeb():
         self.__mc_process = mc_process
         self.__web_port = int(config.get('Web', 'web_port'))
         factory = RcRoot(mc_process)
-        factory.putChild('status', RcStatus(mc_process))
-        factory.putChild("expire", ExpireSession())
+        factory.putChild('status', RcPage(mc_process))
+        factory.putChild('expire', ExpireSession())
         self.__site = server.Site(factory)
         registerAdapter(MccpSession, Session, ISession)
 
