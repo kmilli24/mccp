@@ -21,10 +21,6 @@ class ExpireSession(Resource):
 class ISession(Interface):
     username = Attribute("A string that holds the username.")
 
-    get_username = Attribute("a method to get the username")
-
-    set_username = Attribute("a method to set the username")
-
 
 class MccpSession(object):
     implements(ISession)
