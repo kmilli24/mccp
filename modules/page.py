@@ -28,8 +28,16 @@ class WebTemplate(object):
 
     def render(self):
         eol = "\n"
-        html = '<div style="margin: auto; width: 600px; border: 1px solid black;">' + eol + \
+        html = '<div id ="wrap" style="width:750px; margin:0 auto;">' + eol + \
+               '<div id ="nav" style="margin: auto; width: 768px; border: 1px solid black;">' + eol + \
+               '</div>' + eol + \
+               '<div id ="sidebar" style="margin: auto; width: 768px; border: 1px solid black;">' + eol + \
+               '</div>' + eol + \
+               '<div id ="main" style="float:right; width:500px;">' + eol + \
                self.__content + eol + \
+               '</div>' + eol + \
+               '<div id ="footer" style="clear: both;">' + eol + \
+               '</div>' + eol + \
                '</div>'
         return html
 
