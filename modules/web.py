@@ -1,3 +1,4 @@
+import cgi
 import os
 import time
 
@@ -64,6 +65,16 @@ class RcRoot(Resource):
         return page.render()
 
 
+class RcCmd(Resource):
+    def __init__(self, mc_server):
+        Resource.__init__(self)
+        self.__server = mc_server
+
+    def render_POST(self, request):
+        self.__server.handle_cmd(cgi.escape(request.args["cmd"][0]), cgi.escape(request.args["source"][0]))
+        return '<html></html>'
+
+
 class RcStatus(Resource):
 
     def __init__(self, mc_server):
@@ -85,6 +96,7 @@ class MccpWeb():
         factory.putChild('status', RcStatus(mc_process))
         factory.putChild('core', File('./pages'))
         factory.putChild('term', RcTerm(mc_process))
+        factory.putChild('cmd', RcCmd(mc_process))
         factory.putChild('expire', ExpireSession())
         self.__site = server.Site(factory)
         registerAdapter(MccpSession, Session, ISession)

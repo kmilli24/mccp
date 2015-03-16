@@ -25,7 +25,7 @@ class IOHandler(basic.LineReceiver):
 
     def lineReceived(self, line):
         # send the line to minecraft
-        self.__process.handle_cmd(line)
+        self.__process.handle_cmd(line, 'console')
 
     def attach(self, process):
         self.__process = process
@@ -63,7 +63,7 @@ def main():
     stdio.StandardIO(stdio_handler)
 
     # start the minecraft process
-    mc_process.start()
+    # mc_process.start()
 
     # start the web interface
     site = MccpWeb(mc_process, config)

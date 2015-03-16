@@ -5,32 +5,8 @@
     <title>MCCP: Home</title>
     <link rel="stylesheet" type="text/css" href="/core/core.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/core/core.js" language="JavaScript"></script>
     <script language="JavaScript">
-        var lastUpdateTimeStamp = ''
-
-        var myAjaxCall = function () {
-            $.ajax({
-                type: "GET",
-                url: '/term',
-                dataType: "json",
-                success: function (json) {
-                    if (json.timestamp > lastUpdateTimeStamp) {
-                        var term = $('#term-display')
-                        term.html('');
-                        $.each(json.output, function (index, value) {
-                            term.append(value + "<br>");
-                        })
-                        lastUpdateTimeStamp = json.timestamp;
-                        term.scrollTop(term[0].scrollHeight);
-                    }
-                }
-            })
-        };
-
-        window.onload = function () {
-            var ResInterval = window.setInterval('myAjaxCall()', 1000); // 60 seconds
-
-        };
     </script>
 </head>
 <body>
@@ -50,14 +26,15 @@
         </div>
         <div id="control">
             <ul>
-                <li class="control-button">Start</li>
+                <li class="control-button" onclick="handleInput('/start')">Start</li>
+                <li class="control-button" onclick="handleInput('/Stop')">Stop</li>
             </ul>
         </div>
         <div id="term">
             <div id="term-display">
 
             </div>
-            <form id="io" name="io">
+            <form id="io" name="io" method="get" action="/cmd" onsubmit='return handleInput($("#cmd").val());'>
                 <div id="term-input">
                     <label for="cmd"><input id="cmd" name="cmd"></label>
                 </div>

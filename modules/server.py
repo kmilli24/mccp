@@ -11,6 +11,7 @@ from twisted.internet import protocol, reactor
 class MineCraftServerProcess(protocol.ProcessProtocol):
     def __init__(self, io, config):
         self.__io = io
+        self.__proc_id = None
         self.__web_server = None
         self.web_last_update = time.time()
         self.web_update = []
@@ -76,11 +77,11 @@ class MineCraftServerProcess(protocol.ProcessProtocol):
     def set_status(self, status):
         self.__status = status
 
-    def handle_cmd(self, line):
+    def handle_cmd(self, line, source):
         delimiter = os.linesep
         # check if internal command
         if line.find('/') == 0:
-            self.handle_cmd_internal(line)
+            self.handle_cmd_internal(line, source)
         elif self.__status == 'running':
             if line.lower().find('stop') == 0:
                 print '\'stop\' is not supported. Please use /stop to stop the server.'
@@ -89,28 +90,37 @@ class MineCraftServerProcess(protocol.ProcessProtocol):
             else:
                 self.transport.write(line + delimiter)
         else:
-            print 'Server not yet running, please try again later.',
+            print 'Server not yet running, please try again later.'
+            self.update_web('Server not yet running, please try again later.')
 
     def start(self):
         # start the minecraft process
         reactor.spawnProcess(self, self.__exec, self.__args, path=self.__home)
+        self.__proc_id = self.pid
 
-    def handle_cmd_internal(self, cmd):
+    def handle_cmd_internal(self, cmd, source):
         delimiter = os.linesep
         if cmd == '/status':
             print 'Current status: ' + self.get_status()
             self.update_web('Current status: ' + self.get_status())
         elif self.__status == 'running':
             if cmd == '/quit':
-                self.__status = 'quitting'
-                print 'Stopping server and exiting program...'
-                self.update_web('Stopping server and exiting program...')
-                self.transport.write('stop' + delimiter)
+                if not source == 'console':
+                    print 'MCCP can only be exited from command line. Did you mean /stop?'
+                    self.update_web('MCCP can only be exited from command line. Did you mean /stop?')
+                else:
+                    self.__status = 'quitting'
+                    print 'Stopping server and exiting program...'
+                    self.update_web('Stopping server and exiting program...')
+                    self.transport.write('stop' + delimiter)
             elif cmd == '/restart':
                 self.__status = 'restarting'
                 print 'Restarting server...'
                 self.update_web('Restarting server...')
                 self.transport.write('stop' + delimiter)
+            elif cmd == '/start':
+                print 'Server is already running'
+                self.update_web('Server is already running')
             elif cmd == '/stop':
                 self.__status = 'stopping'
                 print 'Stopping server...'
@@ -120,18 +130,29 @@ class MineCraftServerProcess(protocol.ProcessProtocol):
                 print 'Unknown internal command: ' + cmd
                 self.update_web('Unknown internal command: ' + cmd)
         elif cmd == '/quit':
-            self.__status = 'quitting'
-            print 'Quitting program...'
-            self.update_web('Quitting program...')
-            if reactor.running:
-                reactor.stop()
+            if not source == 'console':
+                print 'MCCP can only be exited from command line. Did you mean /stop?'
+                self.update_web('MCCP can only be exited from command line. Did you mean /stop?')
             else:
-                sys.exit(-1)
+                self.__status = 'quitting'
+                print 'Quitting program...'
+                self.update_web('Quitting program...')
+                if reactor.running:
+                    reactor.stop()
+                else:
+                    sys.exit(-1)
         elif cmd == '/start':
-            self.__status = 'starting'
-            print 'Starting minecraft...'
-            self.update_web('Starting minecraft...')
-            self.start()
+            if not self.__status == 'starting' and not self.__status == 'restarting':
+                self.__status = 'starting'
+                print 'Starting minecraft...'
+                self.update_web('Starting minecraft...')
+                self.start()
+            else:
+                print 'Server is in the process of starting, please wait...'
+                self.update_web('Server is in the process of starting, please wait...')
+        elif cmd == '/stop':
+            print "Minecraft isn't running yet. Maybe try /start ?"
+            self.update_web("Minecraft isn't running yet. Maybe try /start ?")
         else:
             print 'Unknown internal command: ' + cmd
             self.update_web('Unknown internal command: ' + cmd)
