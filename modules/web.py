@@ -1,5 +1,8 @@
 import cgi
 import os
+import sys
+
+from twisted.internet.error import CannotListenError
 
 from twisted.python.components import registerAdapter
 from twisted.internet import reactor
@@ -83,7 +86,7 @@ class RcCmd(Resource):
 class MccpWeb():
     def __init__(self, mc_process, config):
         self.__mc_process = mc_process
-        self.__web_port = int(config.get('Web', 'web_port'))
+        self.__web_port = int(config.getConfig('Web', 'web_port'))
         factory = RcRoot(mc_process)
         factory.putChild('core', File('./pages'))
         factory.putChild('term', RcTerm(mc_process))
@@ -93,4 +96,11 @@ class MccpWeb():
         registerAdapter(MccpSession, Session, ISession)
 
     def start(self):
-        reactor.listenTCP(self.__web_port, self.__site)
+        try:
+            reactor.listenTCP(self.__web_port, self.__site)
+        except CannotListenError:
+            print 'Port ' + str(self.__web_port) + ' already in use.'
+            if reactor.running:
+                reactor.stop()
+            else:
+                sys.exit(-1)

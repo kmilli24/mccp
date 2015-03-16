@@ -24,3 +24,6 @@ class MccpSetup(object):
         # if the config file is not set correctly, create it.
         if not self.__config.has_section('Servers') or not self.__config.has_section('Web'):
             self.set_config_defaults()
+
+    def getConfig(self, section, value):
+        return self.__config.get(section, value)
