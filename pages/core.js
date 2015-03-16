@@ -9,6 +9,26 @@ function handleInput(cmd) {
     return false;
 }
 
+function updateStatus(status) {
+    var statusIcon = $("#statusIcon");
+    switch (status) {
+        case "stopped":
+            statusIcon.attr('src', 'img/red.png');
+            break;
+        case 'running':
+            statusIcon.attr('src', 'img/green.png');
+            break;
+        case 'starting':
+        case 'stopping':
+        case 'restarting':
+            statusIcon.attr('src', 'img/yellow.png');
+            break
+    }
+    statusIcon.attr('alt', status);
+    statusIcon.attr('title', status);
+
+}
+
 var myAjaxCall = function () {
     //noinspection JSUnusedGlobalSymbols
     $.ajax({
@@ -17,14 +37,12 @@ var myAjaxCall = function () {
         dataType: "json",
         success: function (json) {
             if (json.timestamp > lastUpdateTimeStamp) {
+                updateStatus(json.status);
                 var term = $('#term-display');
-                var tmpReply = '';
-                term.html('');
+                var tmpReply = [];
                 //noinspection JSUnresolvedVariable
-                $.each(json.output, function (index, value) {
-                    tmpReply += value + "<br>";
-                });
-                term.html(tmpReply);
+                tmpReply = json.output.join("<br>");
+                term.html(tmpReply.toString());
                 lastUpdateTimeStamp = json.timestamp;
                 //noinspection JSValidateTypes
                 term.scrollTop(term[0].scrollHeight);

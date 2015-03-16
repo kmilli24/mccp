@@ -78,10 +78,12 @@ body {
 }
 
 #navbar ul {
+    float: right;
     list-style: none;
     padding-left: 0;
     padding-top: 0;
-    margin: 0;
+    margin-top: 8px;
+    margin-right: 8px;
 }
 
 #sections ul {
@@ -92,10 +94,11 @@ body {
 }
 
 #control ul {
+    float: left;
     list-style: none;
-    padding-left: 0;
+    padding-left: 5px;
     padding-top: 0;
-    margin: 0;
+    margin-top: 8px;
 }
 
 #control ul li {
@@ -140,4 +143,17 @@ body {
     width: 80px;
     box-shadow: 2px 2px 3px #666;
     cursor: pointer;
+}
+
+#control-status {
+    top: 0;
+    float: right;
+    width: 64px;
+    height: 64px;
+}
+
+#control-status img {
+    height: 64px;
+    width: 64px;
+    margin-right: 8px;
 }

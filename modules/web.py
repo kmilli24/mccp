@@ -1,6 +1,5 @@
 import cgi
 import os
-import time
 
 from twisted.python.components import registerAdapter
 from twisted.internet import reactor
@@ -42,7 +41,8 @@ class RcTerm(Resource):
 
     # noinspection PyUnusedLocal
     def render_GET(self, request):
-        obj = {'timestamp': self.__process.web_last_update, 'output': self.__process.web_update}
+        obj = {'status': self.__process.get_status(), 'timestamp': self.__process.web_last_update,
+               'output': self.__process.web_update}
 
         return json.dumps(obj, separators=(',', ':'), sort_keys=True)
 
@@ -80,26 +80,11 @@ class RcCmd(Resource):
         return '<html></html>'
 
 
-class RcStatus(Resource):
-
-    def __init__(self, mc_server):
-        Resource.__init__(self)
-        self.__server = mc_server
-
-    # noinspection PyUnusedLocal
-    def render_GET(self, request):
-        obj = [{'timestamp': time.time(), 'status': self.__server.get_status()}]
-        page = WebPage('Status', '', json.dumps(obj, separators=(',', ':'), sort_keys=True))
-
-        return page.render()
-
-
 class MccpWeb():
     def __init__(self, mc_process, config):
         self.__mc_process = mc_process
         self.__web_port = int(config.get('Web', 'web_port'))
         factory = RcRoot(mc_process)
-        factory.putChild('status', RcStatus(mc_process))
         factory.putChild('core', File('./pages'))
         factory.putChild('term', RcTerm(mc_process))
         factory.putChild('cmd', RcCmd(mc_process))

@@ -63,6 +63,8 @@ class MineCraftServerProcess(protocol.ProcessProtocol):
         print 'Server stopped!'
         self.update_web('Server stopped!')
         if self.__status == 'restarting':
+            print 'Server starting...'
+            self.update_web('Server starting...')
             self.start()
         elif self.__status == 'stopping':
             # minecraft has quit
