@@ -1,4 +1,5 @@
 import os
+import time
 
 from twisted.python.components import registerAdapter
 from twisted.internet import reactor
@@ -7,6 +8,7 @@ from twisted.web.resource import Resource
 from twisted.web.server import Session
 from twisted.web.static import File
 from zope.interface import Interface, Attribute, implements
+import simplejson as json
 
 from modules.page import WebPage, WebTemplate
 
@@ -28,6 +30,16 @@ class MccpSession(object):
 
     def __init__(self, session):
         self.username = ''
+
+
+class RcTerm(Resource):
+    def __init__(self, process):
+        self.__process = process
+
+    def render_GET(self, request):
+        obj = {'timestamp': self.__process.web_last_update, 'output': self.__process.web_update}
+
+        return json.dumps(obj, separators=(',', ':'), sort_keys=True)
 
 
 class RcRoot(Resource):
@@ -52,15 +64,15 @@ class RcRoot(Resource):
         return page.render()
 
 
-class RcPage(Resource):
-    # isLeaf = True
+class RcStatus(Resource):
 
     def __init__(self, mc_server):
         Resource.__init__(self)
         self.__server = mc_server
 
     def render_GET(self, request):
-        page = WebPage('Status', '', 'Server status: ' + self.__server.get_status())
+        obj = [{'timestamp': time.time(), 'status': self.__server.get_status()}]
+        page = WebPage('Status', '', json.dumps(obj, separators=(',', ':'), sort_keys=True))
 
         return page.render()
 
@@ -70,8 +82,9 @@ class MccpWeb():
         self.__mc_process = mc_process
         self.__web_port = int(config.get('Web', 'web_port'))
         factory = RcRoot(mc_process)
-        factory.putChild('status', RcPage(mc_process))
+        factory.putChild('status', RcStatus(mc_process))
         factory.putChild('core', File('./pages'))
+        factory.putChild('term', RcTerm(mc_process))
         factory.putChild('expire', ExpireSession())
         self.__site = server.Site(factory)
         registerAdapter(MccpSession, Session, ISession)
