@@ -1,20 +1,22 @@
 import time
 
-__author__ = 'drazisil'
-
 import sys
 import os
+
+__author__ = 'drazisil'
+
 
 from twisted.internet import protocol, reactor
 
 
 class MineCraftServerProcess(protocol.ProcessProtocol):
     def __init__(self, io, config):
+        self.__version = '1.0'
         self.__io = io
         self.__proc_id = None
         self.__web_server = None
         self.web_last_update = time.time()
-        self.web_update = []
+        self.web_update = ['MCCP ' + self.__version]
         self.__mc_port = 25567  # needs to be moved to the config section
         self.__minMemory = 2048
         self.__maxMemory = 3072
@@ -27,7 +29,7 @@ class MineCraftServerProcess(protocol.ProcessProtocol):
 
     def connectionMade(self):
         self.__status = 'starting'
-        print 'Server starting...'
+        # print 'Server starting...'
 
     def outReceived(self, data):
         # server loaded
@@ -95,8 +97,7 @@ class MineCraftServerProcess(protocol.ProcessProtocol):
 
     def start(self):
         # start the minecraft process
-        reactor.spawnProcess(self, self.__exec, self.__args, path=self.__home)
-        self.__proc_id = self.pid
+        self.__proc_id = reactor.spawnProcess(self, self.__exec, self.__args, path=self.__home)
 
     def handle_cmd_internal(self, cmd, source):
         delimiter = os.linesep

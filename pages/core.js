@@ -10,6 +10,7 @@ function handleInput(cmd) {
 }
 
 var myAjaxCall = function () {
+    //noinspection JSUnusedGlobalSymbols
     $.ajax({
         type: "GET",
         url: '/term',
@@ -17,11 +18,15 @@ var myAjaxCall = function () {
         success: function (json) {
             if (json.timestamp > lastUpdateTimeStamp) {
                 var term = $('#term-display');
+                var tmpReply = '';
                 term.html('');
+                //noinspection JSUnresolvedVariable
                 $.each(json.output, function (index, value) {
-                    term.append(value + "<br>");
+                    tmpReply += value + "<br>";
                 });
+                term.html(tmpReply);
                 lastUpdateTimeStamp = json.timestamp;
+                //noinspection JSValidateTypes
                 term.scrollTop(term[0].scrollHeight);
             }
         }
@@ -29,6 +34,6 @@ var myAjaxCall = function () {
 };
 
 window.onload = function () {
-    var ResInterval = window.setInterval('myAjaxCall()', 1000); // 60 seconds
+    window.setInterval('myAjaxCall()', 1000); // 60 seconds
 
 };

@@ -18,7 +18,8 @@ __author__ = 'drazisil'
 
 
 class ExpireSession(Resource):
-    def render_GET(self, request):
+    @staticmethod
+    def render_GET(request):
         request.getSession().expire()
 
 
@@ -29,14 +30,17 @@ class ISession(Interface):
 class MccpSession(object):
     implements(ISession)
 
+    # noinspection PyUnusedLocal
     def __init__(self, session):
         self.username = ''
 
 
 class RcTerm(Resource):
     def __init__(self, process):
+        Resource.__init__(self)
         self.__process = process
 
+    # noinspection PyUnusedLocal
     def render_GET(self, request):
         obj = {'timestamp': self.__process.web_last_update, 'output': self.__process.web_update}
 
@@ -54,13 +58,14 @@ class RcRoot(Resource):
             return self
         return Resource.getChild(self, name, request)
 
-    def render_GET(self, request):
+    @staticmethod
+    def render_GET(request):
         session_id = request.getSession()
         session = ISession(session_id)
         if session.username == '':
             session.username = str(os.urandom(16))
 
-        page = WebPage('Home', '', WebTemplate('wombat ' + session.username).render())
+        page = WebPage('Home', '', WebTemplate('wombat ' + str(session.username)).render())
 
         return page.render()
 
@@ -81,6 +86,7 @@ class RcStatus(Resource):
         Resource.__init__(self)
         self.__server = mc_server
 
+    # noinspection PyUnusedLocal
     def render_GET(self, request):
         obj = [{'timestamp': time.time(), 'status': self.__server.get_status()}]
         page = WebPage('Status', '', json.dumps(obj, separators=(',', ':'), sort_keys=True))

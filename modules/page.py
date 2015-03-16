@@ -40,8 +40,3 @@ class WebTemplate(object):
                '</div>' + eol + \
                '</div>'
         return html
-
-
-class WebCSS(object):
-    def __init__(self, content):
-        pass

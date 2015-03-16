@@ -8,6 +8,8 @@ from twisted.protocols import basic
 from modules.web import *
 from modules.server import MineCraftServerProcess
 
+__author__ = 'drazisil'
+
 
 class IOHandler(basic.LineReceiver):
     def __init__(self):
