@@ -1,3 +1,5 @@
+import logging
+import logging.config
 import time
 
 import sys
@@ -21,15 +23,20 @@ class MineCraftServerProcess(protocol.ProcessProtocol):
         self.__minMemory = 2048
         self.__maxMemory = 3072
         self.__home = config.get('Servers', 'home_path')
+        self.__log_path = self.__home + '/logs/mccp.log'
+        logging.basicConfig(filename=self.__log_path,
+                            level=logging.DEBUG,
+                            format='[%(asctime)s] [%(name)s/%(levelname)s] %(message)s')
+        self.__logger = logging.getLogger('Mccp')
         self.__status = 'stopped'
         self.__exec = 'java'
         self.__server_jar = config.get('Servers', 'server_jar')
         self.__args = (r"java", "-Xmx%dm" % self.__maxMemory, "-Xms%dm" % self.__minMemory,
                        "-XX:PermSize=256m", "-jar", self.__home + self.__server_jar, "nogui")
+        self.__logger.info('Starting MCCP ' + self.__version)
 
     def connectionMade(self):
         self.__status = 'starting'
-        # print 'Server starting...'
 
     def outReceived(self, data):
         # server loaded
@@ -166,3 +173,4 @@ class MineCraftServerProcess(protocol.ProcessProtocol):
     def update_web(self, data):
         self.web_last_update = time.time()
         self.web_update.append(data)
+        self.__logger.info(data)
