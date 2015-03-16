@@ -1,5 +1,4 @@
 import cgi
-import os
 import sys
 
 from twisted.internet.error import CannotListenError
@@ -13,8 +12,6 @@ from twisted.web.static import File
 from twisted.web.util import Redirect
 from zope.interface import Interface, Attribute, implements
 import simplejson as json
-
-from modules.page import WebPage, WebTemplate
 
 
 __author__ = 'drazisil'
@@ -92,14 +89,7 @@ class RcRoot(Resource):
         return Resource.getChild(self, name, request)
 
     def render_GET(self, request):
-        session_id = request.getSession()
-        session = ISession(session_id)
-        if session.username == '':
-            session.username = str(os.urandom(16))
-
-        page = WebPage('Home', '', WebTemplate('wombat ' + str(session.username)).render())
-
-        return page.render()
+        return Redirect("/core").render(request)
 
 
 class RcCmd(Resource):
