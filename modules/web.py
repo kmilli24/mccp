@@ -10,6 +10,7 @@ from twisted.web import server
 from twisted.web.resource import Resource
 from twisted.web.server import Session
 from twisted.web.static import File
+from twisted.web.util import Redirect
 from zope.interface import Interface, Attribute, implements
 import simplejson as json
 
@@ -20,8 +21,7 @@ __author__ = 'drazisil'
 
 
 class ExpireSession(Resource):
-    @staticmethod
-    def render_GET(request):
+    def render_GET(self, request):
         request.getSession().expire()
 
 
@@ -50,6 +50,36 @@ class RcTerm(Resource):
         return json.dumps(obj, separators=(',', ':'), sort_keys=True)
 
 
+class RcLogin(Resource):
+    def __init__(self, mc_server):
+        Resource.__init__(self)
+        self.__server = mc_server
+
+    def render_GET(self, request):
+        session_id = request.getSession()
+        session = ISession(session_id)
+        user = session.username
+        if user == '':
+            return File('./pages/login.html').render(request)
+        else:
+            return Redirect("/core").render(request)
+
+
+class RcCore(Resource):
+    def __init__(self, mc_server):
+        Resource.__init__(self)
+        self.__server = mc_server
+
+    def render_GET(self, request):
+        session_id = request.getSession()
+        session = ISession(session_id)
+        user = session.username
+        if not user == '':
+            return File('./pages/index.html').render(request)
+        else:
+            return Redirect("/login").render(request)
+
+
 class RcRoot(Resource):
     def __init__(self, mc_server):
         Resource.__init__(self)
@@ -61,8 +91,7 @@ class RcRoot(Resource):
             return self
         return Resource.getChild(self, name, request)
 
-    @staticmethod
-    def render_GET(request):
+    def render_GET(self, request):
         session_id = request.getSession()
         session = ISession(session_id)
         if session.username == '':
@@ -79,7 +108,20 @@ class RcCmd(Resource):
         self.__server = mc_server
 
     def render_POST(self, request):
-        self.__server.handle_cmd(cgi.escape(request.args["cmd"][0]), cgi.escape(request.args["source"][0]))
+        if cgi.escape(request.args["button"][0]):
+            # This is a button
+            if cgi.escape(request.args["button"][0]) == 'login':
+                session_id = request.getSession()
+                session = ISession(session_id)
+                session.username = 'bob'
+                return Redirect('/core').render(request)
+            elif cgi.escape(request.args["button"][0]) == 'logout':
+                session_id = request.getSession()
+                session = ISession(session_id)
+                session.username = ''
+                return Redirect('/core').render(request)
+        else:
+            self.__server.handle_cmd(cgi.escape(request.args["cmd"][0]), cgi.escape(request.args["source"][0]))
         return '<html></html>'
 
 
@@ -88,7 +130,11 @@ class MccpWeb():
         self.__mc_process = mc_process
         self.__web_port = int(config.getConfig('Web', 'web_port'))
         factory = RcRoot(mc_process)
-        factory.putChild('core', File('./pages'))
+        factory.putChild('login', RcLogin(mc_process))
+        factory.putChild('core', RcCore(mc_process))
+        factory.putChild('css', File('./pages/css'))
+        factory.putChild('js', File('./pages/js'))
+        factory.putChild('img', File('./pages/img'))
         factory.putChild('term', RcTerm(mc_process))
         factory.putChild('cmd', RcCmd(mc_process))
         factory.putChild('expire', ExpireSession())
