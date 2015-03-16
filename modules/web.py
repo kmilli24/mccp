@@ -5,6 +5,7 @@ from twisted.internet import reactor
 from twisted.web import server
 from twisted.web.resource import Resource
 from twisted.web.server import Session
+from twisted.web.static import File
 from zope.interface import Interface, Attribute, implements
 
 from modules.page import WebPage, WebTemplate
@@ -70,6 +71,7 @@ class MccpWeb():
         self.__web_port = int(config.get('Web', 'web_port'))
         factory = RcRoot(mc_process)
         factory.putChild('status', RcPage(mc_process))
+        factory.putChild('core', File('./pages'))
         factory.putChild('expire', ExpireSession())
         self.__site = server.Site(factory)
         registerAdapter(MccpSession, Session, ISession)

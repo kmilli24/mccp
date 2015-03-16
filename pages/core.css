@@ -1,0 +1,75 @@
+body {
+    background-color: darkslategray;
+}
+
+#outer {
+    width: 850px;
+    height: 500px;
+    margin: auto;
+    border: solid 1px black;
+    border-radius: 10px;
+    top: 75px;
+    position: relative;
+}
+
+#navbar {
+    background-color: #CCCCFF;
+    width: 844px;
+    height: 50px;
+    padding: 3px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#sections {
+    background-color: #CCCCFF;
+    width: 96px;
+    height: 437px;
+    float: left;
+    padding: 3px;
+    border: solid 1px black;
+    border-bottom-left-radius: 10px;
+    border-left: none;
+}
+
+#control {
+    background-color: #CCCCFF;
+    width: 741px;
+    height: 50px;
+    padding: 3px;
+    float: right;
+    border-top: solid 1px black;
+    border-bottom: solid 1px black;
+}
+
+#term {
+    clear: right;
+}
+
+#term-display {
+    background-color: #E3E3E3;
+    width: 741px;
+    height: 324px;
+    font-size: smaller;
+    padding: 3px;
+    overflow: auto;
+}
+
+#term-input {
+    background-color: #CCCCFF;
+    width: 741px;
+    height: 49px;
+    float: right;
+    padding: 3px;
+    border-bottom-right-radius: 10px;
+    border-top: solid 1px black;
+}
+
+#cmd {
+    width: 716px;
+    height: 30px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 3px #666;
+    font-size: 20px;
+    padding: 4px 7px;
+}
