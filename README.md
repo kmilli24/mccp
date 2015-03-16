@@ -16,3 +16,4 @@ Very WIP.
 
 References:
 * http://twistedmatrix.com/documents/current/web/howto/web-in-60/index.html
+* http://simplejson.readthedocs.org/en/latest/

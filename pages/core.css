@@ -10,6 +10,7 @@ body {
     border-radius: 10px;
     top: 75px;
     position: relative;
+    background-color: #CCCCFF;
 }
 
 #navbar {
@@ -47,12 +48,14 @@ body {
 }
 
 #term-display {
-    background-color: #E3E3E3;
-    width: 741px;
-    height: 324px;
+    background-color: black;
+    width: 734px;
+    height: 320px;
     font-size: smaller;
-    padding: 3px;
+    padding: 5px;
     overflow: auto;
+    color: whitesmoke;
+    margin-right: 3px;
 }
 
 #term-input {
@@ -72,4 +75,65 @@ body {
     box-shadow: 2px 2px 3px #666;
     font-size: 20px;
     padding: 4px 7px;
+}
+
+#navbar ul {
+    list-style: none;
+    padding-left: 0;
+    padding-top: 0;
+    margin: 0;
+}
+
+#sections ul {
+    list-style: none;
+    padding-left: 0;
+    padding-top: 0;
+    margin: 0;
+}
+
+#control ul {
+    list-style: none;
+    padding-left: 0;
+    padding-top: 0;
+    margin: 0;
+}
+
+.navbar-button {
+    border: solid 1px black;
+    border-radius: 10px;
+    padding: 3px;
+    text-align: center;
+    background-color: #C7E7FF;
+    color: black;
+    font-size: smaller;
+    width: 80px;
+    box-shadow: 2px 2px 3px #666;
+
+}
+
+.section-button {
+    border: solid 1px black;
+    border-radius: 10px;
+    padding: 3px;
+    text-align: center;
+    background-color: #C7E7FF;
+    color: black;
+    font-size: smaller;
+    width: 80px;
+    box-shadow: 2px 2px 3px #666;
+    margin: 8px auto;
+
+}
+
+.control-button {
+    border: solid 1px black;
+    border-radius: 10px;
+    padding: 3px;
+    text-align: center;
+    background-color: #C7E7FF;
+    color: black;
+    font-size: smaller;
+    width: 80px;
+    box-shadow: 2px 2px 3px #666;
+
 }
