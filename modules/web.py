@@ -98,7 +98,7 @@ class RcCmd(Resource):
         self.__server = mc_server
 
     def render_POST(self, request):
-        if cgi.escape(request.args["button"][0]):
+        if 'button' in request.args:
             # This is a button
             if cgi.escape(request.args["button"][0]) == 'login':
                 session_id = request.getSession()
