@@ -1,7 +1,30 @@
+/* Colors */
+html {
+    color: #06BA6F;
+}
 body {
-    background-color: darkslategray;
+    background-color: #1E1E1E;
 }
 
+#navbar {
+    background-color: #2153AE;
+}
+
+#outer, #sections, #control {
+    background-color: #308CD9;
+}
+
+.navbar-button, .section-button, .control-button {
+    color: black;
+    background-color: #C7E7FF;
+}
+
+#term-display, #term-input, #cmd {
+    color: #1BCA6A;
+    background-color: black;
+}
+
+/* Formatting */
 #outer {
     width: 850px;
     height: 500px;
@@ -10,11 +33,9 @@ body {
     border-radius: 10px;
     top: 75px;
     position: relative;
-    background-color: #CCCCFF;
 }
 
 #navbar {
-    background-color: #CCCCFF;
     width: 844px;
     height: 50px;
     padding: 3px;
@@ -23,7 +44,6 @@ body {
 }
 
 #sections {
-    background-color: #CCCCFF;
     width: 96px;
     height: 437px;
     float: left;
@@ -34,7 +54,6 @@ body {
 }
 
 #control {
-    background-color: #CCCCFF;
     width: 741px;
     height: 50px;
     padding: 3px;
@@ -45,36 +64,46 @@ body {
 
 #term {
     clear: right;
+    font-size: smaller;
+}
+
+#term-display, #term-input, #cmd {
+    font-family: 'Source Code Pro', monospace;
 }
 
 #term-display {
-    background-color: black;
     width: 734px;
     height: 320px;
-    font-size: smaller;
     padding: 5px;
     overflow: auto;
-    color: whitesmoke;
     margin-right: 3px;
 }
 
 #term-input {
-    background-color: #CCCCFF;
-    width: 741px;
-    height: 49px;
+    font-size: larger;
+    width: 721px;
+    height: 22px;
     float: right;
-    padding: 3px;
-    border-bottom-right-radius: 10px;
-    border-top: solid 1px black;
+    margin-right: 16px;
+    padding: 5px;
+    /* padding: 3px; */
+    /* border-bottom-right-radius: 10px; */
+    /* border-top: solid 1px black; */
+
 }
 
+
 #cmd {
-    width: 716px;
-    height: 30px;
-    border-radius: 10px;
-    box-shadow: 2px 2px 3px #666;
-    font-size: 20px;
-    padding: 4px 7px;
+    /*    width: 716px;
+        height: 30px;
+        border-radius: 10px;
+        box-shadow: 2px 2px 3px #666;
+        font-size: 20px;
+        padding: 4px 7px;*/
+    width: 696px;
+    float: right;
+    margin-top: 0;
+    border: none;
 }
 
 #navbar ul {
@@ -91,6 +120,8 @@ body {
     padding-left: 0;
     padding-top: 0;
     margin: 0;
+    margin-top: 8px;
+    margin-left: 5px;
 }
 
 #control ul {
@@ -105,13 +136,11 @@ body {
     display: inline-block;
 }
 
-.navbar-button {
+.navbar-button, .section-button, .control-button {
     border: solid 1px black;
     border-radius: 10px;
     padding: 3px;
     text-align: center;
-    background-color: #C7E7FF;
-    color: black;
     font-size: smaller;
     width: 80px;
     box-shadow: 2px 2px 3px #666;
@@ -119,30 +148,7 @@ body {
 }
 
 .section-button {
-    border: solid 1px black;
-    border-radius: 10px;
-    padding: 3px;
-    text-align: center;
-    background-color: #C7E7FF;
-    color: black;
-    font-size: smaller;
-    width: 80px;
-    box-shadow: 2px 2px 3px #666;
-    margin: 8px auto;
-    cursor: pointer;
-}
-
-.control-button {
-    border: solid 1px black;
-    border-radius: 10px;
-    padding: 3px;
-    text-align: center;
-    background-color: #C7E7FF;
-    color: black;
-    font-size: smaller;
-    width: 80px;
-    box-shadow: 2px 2px 3px #666;
-    cursor: pointer;
+    margin-bottom: 5px;
 }
 
 #control-status {

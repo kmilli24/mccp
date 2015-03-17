@@ -6,6 +6,7 @@ var lastUpdateTimeStamp = '';
 function handleInput(cmd) {
     $.post("/cmd", {cmd: cmd, source: 'web'});
     $("#cmd").val("");
+    $("#cmd").focus();
     return false;
 }
 
@@ -53,5 +54,6 @@ var myAjaxCall = function () {
 
 window.onload = function () {
     window.setInterval('myAjaxCall()', 1000); // 60 seconds
+    $("#cmd").focus();
 
 };
