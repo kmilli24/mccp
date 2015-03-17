@@ -100,17 +100,18 @@ class RcCmd(Resource):
     def render_POST(self, request):
         if 'button' in request.args:
             # This is a button
-            if cgi.escape(request.args["button"][0]) == 'login':
+            button = cgi.escape(request.args["button"][0])
+            if button == 'login':
                 session_id = request.getSession()
                 session = ISession(session_id)
                 session.username = 'bob'
                 return Redirect('/core').render(request)
-            elif cgi.escape(request.args["button"][0]) == 'logout':
+            elif button == 'logout':
                 session_id = request.getSession()
                 session = ISession(session_id)
                 session.username = ''
                 return Redirect('/core').render(request)
-        else:
+        elif 'cmd' in request.args:
             self.__server.handle_cmd(cgi.escape(request.args["cmd"][0]), cgi.escape(request.args["source"][0]))
         return '<html></html>'
 
