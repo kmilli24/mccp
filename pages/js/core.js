@@ -11,21 +11,20 @@ function handleInput(cmd) {
 }
 
 function updateStatus(status) {
-    var statusIcon = $("#statusIcon");
+    var statusIcon = $("#controlStatus");
     switch (status) {
         case "stopped":
-            statusIcon.attr('src', 'img/red.png');
+            statusIcon.css('backgroundColor', 'red');
             break;
         case 'running':
-            statusIcon.attr('src', 'img/green.png');
+            statusIcon.css('backgroundColor', 'lime');
             break;
         case 'starting':
         case 'stopping':
         case 'restarting':
-            statusIcon.attr('src', 'img/yellow.png');
+            statusIcon.css('backgroundColor', 'yellow');
             break
     }
-    statusIcon.attr('alt', status);
     statusIcon.attr('title', status);
 
 }
