@@ -97,6 +97,10 @@ class RcCmd(Resource):
         Resource.__init__(self)
         self.__server = mc_server
 
+    def render_GET(self, request):
+        # just so there's no error on a get
+        return '<html></html>'
+
     def render_POST(self, request):
         session = ISession(request.getSession())
         if 'action' in request.args:
