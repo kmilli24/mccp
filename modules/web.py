@@ -98,15 +98,22 @@ class RcCmd(Resource):
         self.__server = mc_server
 
     def render_POST(self, request):
-        if 'button' in request.args:
+        if 'action' in request.args:
+            # This is a button
+            action = cgi.escape(request.args["action"][0])
+            if action == 'login':
+                username = cgi.escape(request.args["username"][0])
+                password = cgi.escape(request.args["password"][0])
+                if (username == self.__server.config.getConfig('Web', 'web_username')
+                    and password == self.__server.config.getConfig('Web', 'web_password')):
+                    session_id = request.getSession()
+                    session = ISession(session_id)
+                    session.username = username
+                    return Redirect('/core').render(request)
+        elif 'button' in request.args:
             # This is a button
             button = cgi.escape(request.args["button"][0])
-            if button == 'login':
-                session_id = request.getSession()
-                session = ISession(session_id)
-                session.username = 'bob'
-                return Redirect('/core').render(request)
-            elif button == 'logout':
+            if button == 'logout':
                 session_id = request.getSession()
                 session = ISession(session_id)
                 session.username = ''

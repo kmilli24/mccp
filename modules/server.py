@@ -20,6 +20,7 @@ class MineCraftServerProcess(protocol.ProcessProtocol):
         self.web_last_update = time.time()
         self.web_update = ['MCCP ' + self.__version]
         self.__mc_port = 25567  # needs to be moved to the config section
+        self.config = config
         self.__minMemory = 2048
         self.__maxMemory = 3072
         self.__home = config.getConfig('Servers', 'home_path')

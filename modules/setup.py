@@ -15,6 +15,8 @@ class MccpSetup(object):
         self.__config.set('Servers', 'server_jar', r"/forge-1.8-11.14.1.1322-universal.jar")
         self.__config.add_section('Web')
         self.__config.set('Web', 'web_port', '8888')
+        self.__config.set('Web', 'web_username', 'demo')
+        self.__config.set('Web', 'web_password', '89e495e7941cf9e40e6980d14a16bf023ccd4c91')
 
         # Writing our configuration file to 'mccp.cfg'
         with open(self.__config_file, 'wb') as configfile:

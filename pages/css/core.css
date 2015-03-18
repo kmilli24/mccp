@@ -1,6 +1,6 @@
 /* Colors */
 html {
-    color: #06BA6F;
+    color: #1E1E1E;
 }
 body {
     background-color: #1E1E1E;
@@ -12,6 +12,10 @@ body {
 
 #outer, #sections, #control {
     background-color: #308CD9;
+}
+
+#login {
+    background-color: #306CB9;
 }
 
 .navbar-button, .section-button, .control-button {
@@ -60,6 +64,36 @@ body {
     float: right;
     border-top: solid 1px black;
     border-bottom: solid 1px black;
+}
+
+#login {
+    width: 350px;
+    height: 100px;
+    margin: 100px auto auto;
+    padding: 10px;
+    border: solid 1px black;
+    border-radius: 10px;
+    box-shadow: 2px 2px 3px #666;
+}
+
+#login label {
+    clear: left;
+    float: left;
+    margin-bottom: 5px;
+}
+
+input#username, input#password {
+    clear: right;
+    float: right;
+    margin-bottom: 5px;
+}
+
+#login div {
+    clear: both;
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    padding-top: 10px;
 }
 
 #term {
