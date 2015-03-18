@@ -17,11 +17,6 @@ import simplejson as json
 __author__ = 'drazisil'
 
 
-class ExpireSession(Resource):
-    def render_GET(self, request):
-        request.getSession().expire()
-
-
 class ISession(Interface):
     username = Attribute("A string that holds the username.")
 
@@ -138,7 +133,6 @@ class MccpWeb():
         factory.putChild('img', File('./pages/img'))
         factory.putChild('term', RcTerm(mc_process))
         factory.putChild('cmd', RcCmd(mc_process))
-        factory.putChild('expire', ExpireSession())
         self.__site = server.Site(factory)
         registerAdapter(MccpSession, Session, ISession)
 
