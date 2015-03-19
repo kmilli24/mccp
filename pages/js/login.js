@@ -5,6 +5,7 @@
 function handleLogin() {
     var username = $("#username").val();
     var password = sha1($("#password").val());
+    //noinspection JSUnresolvedFunction,JSUnusedLocalSymbols
     $.post("/cmd", {action: 'login', source: 'web', username: username, password: password})
         .done(function (data) {
             location.reload();
@@ -12,7 +13,8 @@ function handleLogin() {
     return false;
 }
 
-function sha1(str) {
+function sha1(str) //noinspection SpellCheckingInspection
+{
     //  discuss at: http://phpjs.org/functions/sha1/
     // original by: Webtoolkit.info (http://www.webtoolkit.info/)
     // improved by: Michael White (http://getsprink.com)
@@ -22,8 +24,7 @@ function sha1(str) {
     //   returns 1: '54916d2e62f65b3afa6e192e6a601cdbe5cb5897'
 
     var rotate_left = function (n, s) {
-        var t4 = (n << s) | (n >>> (32 - s));
-        return t4;
+        return (n << s) | (n >>> (32 - s));
     };
 
     /*var lsb_hex = function (val) {
@@ -53,7 +54,7 @@ function sha1(str) {
         return str;
     };
 
-    var blockstart;
+    var block_start;
     var i, j;
     var W = new Array(80);
     var H0 = 0x67452301;
@@ -65,7 +66,7 @@ function sha1(str) {
     var temp;
 
     // utf8_encode
-    str = unescape(encodeURIComponent(str));
+    str = decodeURI(encodeURIComponent(str));
     var str_len = str.length;
 
     var word_array = [];
@@ -99,9 +100,9 @@ function sha1(str) {
     word_array.push(str_len >>> 29);
     word_array.push((str_len << 3) & 0x0ffffffff);
 
-    for (blockstart = 0; blockstart < word_array.length; blockstart += 16) {
+    for (block_start = 0; block_start < word_array.length; block_start += 16) {
         for (i = 0; i < 16; i++) {
-            W[i] = word_array[blockstart + i];
+            W[i] = word_array[block_start + i];
         }
         for (i = 16; i <= 79; i++) {
             W[i] = rotate_left(W[i - 3] ^ W[i - 8] ^ W[i - 14] ^ W[i - 16], 1);

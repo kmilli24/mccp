@@ -5,8 +5,10 @@ var lastUpdateTimeStamp = '';
 
 function handleInput(cmd) {
     $.post("/cmd", {cmd: cmd, source: 'web'});
-    $("#cmd").val("");
-    $("#cmd").focus();
+    var div_cmd;
+    div_cmd = $("#cmd");
+    div_cmd.val("");
+    div_cmd.focus();
     return false;
 }
 
@@ -40,9 +42,8 @@ var myAjaxCall = function () {
                 updateStatus(json.status);
                 var term = $('#term-display');
                 if (term.length > 0) {
-                    var tmpReply = [];
                     //noinspection JSUnresolvedVariable
-                    tmpReply = json.output.join("<br>");
+                    var tmpReply = json.output.join("<br>");
                     term.html(tmpReply.toString());
                     lastUpdateTimeStamp = json.timestamp;
                     //noinspection JSValidateTypes

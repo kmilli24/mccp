@@ -23,24 +23,24 @@ class MineCraftServerProcess(protocol.ProcessProtocol):
         self.__web_server = None
 
         # minecraft server port
-        self.mc_port = config.getConfig('Servers', 'server_port')
+        self.mc_port = config.get_config('Servers', 'server_port')
 
         # min memory for java
         self.__minMemory = 2048
         # max memory for java
         self.__maxMemory = 3072
         # home directory for minecraft server
-        self.__home = config.getConfig('Servers', 'home_path')
+        self.__home = config.get_config('Servers', 'home_path')
         # log path for mccp
         self.__log_path = self.__home + '/logs/mccp.log'
         logging.basicConfig(filename=self.__log_path,
                             level=logging.DEBUG,
-                            format='[%(asctime)s] [%(name)s/%(levelname)s] %(message)s')
+                            format='[%(asctime)s] [%(name)s/%(level_name)s] %(message)s')
         self.__logger = logging.getLogger('Mccp')
         # TODO: Not sure why this is needed
         self.__exec = 'java'
         # server jar path and name
-        self.__server_jar = config.getConfig('Servers', 'server_jar')
+        self.__server_jar = config.get_config('Servers', 'server_jar')
         self.__args = (r"java", "-Xmx%dm" % self.__maxMemory, "-Xms%dm" % self.__minMemory,
                        "-XX:PermSize=256m", "-jar", self.__home + self.__server_jar, "nogui")
 

@@ -3,6 +3,7 @@
  */
 
 function handleButton(cmd) {
+    //noinspection JSUnresolvedFunction,JSUnusedLocalSymbols
     $.post("/cmd", {button: cmd, source: 'web'})
         .done(function (data) {
             location.reload();
