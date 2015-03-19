@@ -51,6 +51,7 @@ class MineCraftServerProcess(protocol.ProcessProtocol):
         # initialize minecraft server version
         self.mc_version = ''
 
+        # regex to detect minecraft server version from output
         self.__version_regex = re.compile('Starting minecraft server version ([\d\.]+)')
 
         # set server state to stopped
