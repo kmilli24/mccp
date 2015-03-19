@@ -9,7 +9,7 @@ from modules.web import MccpWeb
 def main():
     # setup the config file
     config = MccpSetup('mccp.cfg')
-    config.create_if_not_exists()
+    config.check_missing_keys()
 
     stdio_handler = MccpConsoleIO()
     mc_process = MineCraftServerProcess(stdio_handler, config)
