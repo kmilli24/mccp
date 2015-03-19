@@ -13,6 +13,8 @@ from twisted.web.util import Redirect
 from zope.interface import Interface, Attribute, implements
 import simplejson as json
 
+from modules.page import WebTemplate
+
 
 __author__ = 'drazisil'
 
@@ -55,6 +57,23 @@ class RcLogin(Resource):
             return File('./pages/login.html').render(request)
         else:
             return Redirect("/core").render(request)
+
+
+class RcInfo(Resource):
+    def __init__(self, mc_server):
+        Resource.__init__(self)
+        self.__server = mc_server
+
+    def render_GET(self, request):
+        session_id = request.getSession()
+        session = ISession(session_id)
+        user = session.username
+        if user == '':
+            return File('./pages/login.html').render(request)
+        else:
+            html = '<div id="info"></div>'
+            page = WebTemplate('Info', html).render()
+            return page
 
 
 class RcCore(Resource):
@@ -128,6 +147,7 @@ class MccpWeb():
         factory = RcRoot(mc_process)
         factory.putChild('login', RcLogin(mc_process))
         factory.putChild('core', RcCore(mc_process))
+        factory.putChild('info', RcInfo(mc_process))
         factory.putChild('css', File('./pages/css'))
         factory.putChild('js', File('./pages/js'))
         factory.putChild('img', File('./pages/img'))
