@@ -1,13 +1,9 @@
-#!/usr/bin/env python
-from twisted.internet import stdio
+from twisted.internet import stdio, reactor
 
 from modules.io import MccpConsoleIO
 from modules.setup import MccpSetup
-from modules.web import *
 from modules.server import MineCraftServerProcess
-
-
-__author__ = 'drazisil'
+from modules.web import MccpWeb
 
 
 def main():

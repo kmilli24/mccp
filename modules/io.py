@@ -1,7 +1,5 @@
 from twisted.protocols import basic
 
-__author__ = 'drazisil'
-
 
 class MccpConsoleIO(basic.LineReceiver):
     def __init__(self):

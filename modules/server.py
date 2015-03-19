@@ -1,13 +1,9 @@
 import logging
 import logging.config
 import time
-
 import sys
 import os
 import re
-
-__author__ = 'drazisil'
-
 
 from twisted.internet import protocol, reactor
 

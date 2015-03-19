@@ -16,9 +16,6 @@ import simplejson as json
 from modules.page import WebTemplate
 
 
-__author__ = 'drazisil'
-
-
 class ISession(Interface):
     username = Attribute("A string that holds the username.")
 

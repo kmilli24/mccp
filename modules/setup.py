@@ -1,7 +1,5 @@
 from ConfigParser import SafeConfigParser
 
-__author__ = 'drazisil'
-
 
 class MccpSetup(object):
     def __init__(self, config_file):

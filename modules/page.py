@@ -1,6 +1,3 @@
-__author__ = 'drazisil'
-
-
 class WebTemplate(object):
     def __init__(self, title, content):
         self.__title = title
