@@ -41,7 +41,7 @@ class MineCraftServerProcess(protocol.ProcessProtocol):
         self.__exec = 'java'
         # server jar path and name
         self.__server_jar = config.get_config('Servers', 'server_jar')
-        self.__args = (r"java", "-Xmx%dm" % self.__maxMemory, "-Xms%dm" % self.__minMemory,
+        self.__args = ("-Xmx%dm" % self.__maxMemory, "-Xms%dm" % self.__minMemory,
                        "-XX:PermSize=256m", "-jar", self.__home + self.__server_jar, "nogui")
 
         # initialize minecraft server version
