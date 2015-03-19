@@ -6,6 +6,13 @@
 }
 
 /* Formatting */
+
+#term {
+    clear: right;
+    font-size: smaller;
+}
+
+
 #term-display, #term-input, #cmd {
     font-family: 'Source Code Pro', monospace;
 }
