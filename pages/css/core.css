@@ -101,6 +101,16 @@ input#username, input#password {
     font-size: smaller;
 }
 
+#info {
+    clear: right;
+    font-size: smaller;
+    width: 734px;
+    height: 320px;
+    padding: 5px;
+    overflow: auto;
+    margin-right: 3px;
+}
+
 #term-display, #term-input, #cmd {
     font-family: 'Source Code Pro', monospace;
 }

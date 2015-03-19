@@ -13,6 +13,7 @@ class MccpSetup(object):
         self.__config.add_section('Servers')
         self.__config.set('Servers', 'home_path', r"/media/Matrix/mc-server-forge-1.8.3")
         self.__config.set('Servers', 'server_jar', r"/forge-1.8-11.14.1.1322-universal.jar")
+        self.__config.set('Servers', 'server_port', '25567')
         self.__config.add_section('Web')
         self.__config.set('Web', 'web_port', '8888')
         self.__config.set('Web', 'web_username', 'demo')
@@ -22,6 +23,7 @@ class MccpSetup(object):
         with open(self.__config_file, 'wb') as configfile:
             self.__config.write(configfile)
 
+    # TODO: Check for missing values
     def create_if_not_exists(self):
         # if the config file is not set correctly, create it.
         if not self.__config.has_section('Servers') or not self.__config.has_section('Web'):

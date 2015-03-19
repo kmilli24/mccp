@@ -71,7 +71,7 @@ class RcInfo(Resource):
         if user == '':
             return File('./pages/login.html').render(request)
         else:
-            html = '<div id="info"></div>'
+            html = '<div id="info">' + self.__server.mc_version + '</div>'
             page = WebTemplate('Info', html).render()
             return page
 
@@ -133,8 +133,14 @@ class RcCmd(Resource):
             if button == 'logout':
                 session.username = ''
                 return Redirect('/core').render(request)
-        elif 'cmd' in request.args:
-            if not session.username == '':
+            elif not session.username == '':
+                if button == 'start':
+                    # only send the command to the server if logged in
+                    self.__server.handle_cmd(cgi.escape('/start'), cgi.escape(request.args["source"][0]))
+                elif button == 'stop':
+                    # only send the command to the server if logged in
+                    self.__server.handle_cmd(cgi.escape('/start'), cgi.escape(request.args["source"][0]))
+            elif 'cmd' in request.args:
                 # only send the command to the server if logged in
                 self.__server.handle_cmd(cgi.escape(request.args["cmd"][0]), cgi.escape(request.args["source"][0]))
         return '<html></html>'

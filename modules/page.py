@@ -37,7 +37,6 @@ class WebTemplate(object):
                '<link href="http://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">' + eol + \
                '<link rel="stylesheet" type="text/css" href="/css/core.css"/>' + eol + \
                '<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>' + eol + \
-               '<script src="/js/core.js"></script>' + eol + \
                '<script src="/js/buttons.js"></script>' + eol + \
                '</head>' + eol + \
                '<body>' + eol + \
@@ -62,8 +61,8 @@ class WebTemplate(object):
                '</div>' + eol + \
                '<div id="control">' + eol + \
                '<ul>' + eol + \
-               '<li class="control-button" onclick="handleInput(\'/start\')">Start</li>' + eol + \
-               '<li class="control-button" onclick="handleInput(\'/stop\')">Stop</li>' + eol + \
+               '<li class="control-button" onclick="handleButton(\'start\')">Start</li>' + eol + \
+               '<li class="control-button" onclick="handleButton(\'stop\')">Stop</li>' + eol + \
                '</ul>' + eol + \
                '<div id="controlStatus" title="stopped"></div>' + eol + \
                self.__content + \

@@ -4,6 +4,7 @@ import time
 
 import sys
 import os
+import re
 
 __author__ = 'drazisil'
 
@@ -26,7 +27,7 @@ class MineCraftServerProcess(protocol.ProcessProtocol):
         self.__web_server = None
 
         # minecraft server port
-        self.mc_port = 25567  # needs to be moved to the config section
+        self.mc_port = config.getConfig('Servers', 'server_port')
 
         # min memory for java
         self.__minMemory = 2048
@@ -47,6 +48,11 @@ class MineCraftServerProcess(protocol.ProcessProtocol):
         self.__args = (r"java", "-Xmx%dm" % self.__maxMemory, "-Xms%dm" % self.__minMemory,
                        "-XX:PermSize=256m", "-jar", self.__home + self.__server_jar, "nogui")
 
+        # initialize minecraft server version
+        self.mc_version = ''
+
+        self.__version_regex = re.compile('Starting minecraft server version ([\d\.]+)')
+
         # set server state to stopped
         self.__status = 'stopped'
 
@@ -64,7 +70,11 @@ class MineCraftServerProcess(protocol.ProcessProtocol):
 
     def outReceived(self, data):
         # server loaded
-        if data.find('Done (') != -1:
+        m = self.__version_regex.search(data)
+        if m:
+            self.mc_version = m.groups()[0]
+        # server loaded
+        elif data.find('Done (') != -1:
             print 'Server Ready!'
             self.update_web('Server Ready!')
             self.__status = 'running'
