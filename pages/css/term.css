@@ -1,0 +1,40 @@
+/* Colors */
+
+#term-display, #term-input, #cmd {
+    color: #1BCA6A;
+    background-color: black;
+}
+
+/* Formatting */
+#term-display, #term-input, #cmd {
+    font-family: 'Source Code Pro', monospace;
+}
+
+#term-display {
+    width: 734px;
+    height: 320px;
+    padding: 5px;
+    overflow: auto;
+    margin-right: 3px;
+}
+
+#term-input {
+    font-size: larger;
+    width: 721px;
+    height: 22px;
+    float: right;
+    margin-right: 16px;
+    padding: 5px;
+    /* padding: 3px; */
+    /* border-bottom-right-radius: 10px; */
+    /* border-top: solid 1px black; */
+
+}
+
+#cmd {
+    width: 696px;
+    float: right;
+    margin-top: 0;
+    border: none;
+}
+
