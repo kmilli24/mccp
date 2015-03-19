@@ -41,10 +41,13 @@ body {
 
 #navbar {
     width: 844px;
-    height: 50px;
-    padding: 3px;
+    height: 56px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+}
+
+#navbar div {
+    padding: 3px;
 }
 
 #sections {

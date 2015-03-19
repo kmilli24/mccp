@@ -39,13 +39,15 @@ var myAjaxCall = function () {
             if (json.timestamp > lastUpdateTimeStamp) {
                 updateStatus(json.status);
                 var term = $('#term-display');
-                var tmpReply = [];
-                //noinspection JSUnresolvedVariable
-                tmpReply = json.output.join("<br>");
-                term.html(tmpReply.toString());
-                lastUpdateTimeStamp = json.timestamp;
-                //noinspection JSValidateTypes
-                term.scrollTop(term[0].scrollHeight);
+                if (term.length > 0) {
+                    var tmpReply = [];
+                    //noinspection JSUnresolvedVariable
+                    tmpReply = json.output.join("<br>");
+                    term.html(tmpReply.toString());
+                    lastUpdateTimeStamp = json.timestamp;
+                    //noinspection JSValidateTypes
+                    term.scrollTop(term[0].scrollHeight);
+                }
             }
         }
     })

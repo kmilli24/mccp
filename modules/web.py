@@ -56,7 +56,7 @@ class RcLogin(Resource):
         if user == '':
             return File('./pages/login.html').render(request)
         else:
-            return Redirect("/core").render(request)
+            return Redirect("/console").render(request)
 
 
 class RcInfo(Resource):
@@ -76,7 +76,7 @@ class RcInfo(Resource):
             return page
 
 
-class RcCore(Resource):
+class RcConsole(Resource):
     def __init__(self, mc_server):
         Resource.__init__(self)
         self.__server = mc_server
@@ -103,7 +103,7 @@ class RcRoot(Resource):
         return Resource.getChild(self, name, request)
 
     def render_GET(self, request):
-        return Redirect("/core").render(request)
+        return Redirect("/console").render(request)
 
 
 class RcCmd(Resource):
@@ -126,7 +126,7 @@ class RcCmd(Resource):
                 if (username == self.__server.config.getConfig('Web', 'web_username')
                     and password == self.__server.config.getConfig('Web', 'web_password')):
                     session.username = username
-                    return Redirect('/core').render(request)
+                    return Redirect('/console').render(request)
         elif 'button' in request.args:
             # This is a button
             button = cgi.escape(request.args["button"][0])
@@ -139,7 +139,7 @@ class RcCmd(Resource):
                     self.__server.handle_cmd(cgi.escape('/start'), cgi.escape(request.args["source"][0]))
                 elif button == 'stop':
                     # only send the command to the server if logged in
-                    self.__server.handle_cmd(cgi.escape('/start'), cgi.escape(request.args["source"][0]))
+                    self.__server.handle_cmd(cgi.escape('/stop'), cgi.escape(request.args["source"][0]))
             elif 'cmd' in request.args:
                 # only send the command to the server if logged in
                 self.__server.handle_cmd(cgi.escape(request.args["cmd"][0]), cgi.escape(request.args["source"][0]))
@@ -152,7 +152,7 @@ class MccpWeb():
         self.__web_port = int(config.getConfig('Web', 'web_port'))
         factory = RcRoot(mc_process)
         factory.putChild('login', RcLogin(mc_process))
-        factory.putChild('core', RcCore(mc_process))
+        factory.putChild('console', RcConsole(mc_process))
         factory.putChild('info', RcInfo(mc_process))
         factory.putChild('css', File('./pages/css'))
         factory.putChild('js', File('./pages/js'))

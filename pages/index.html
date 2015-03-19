@@ -24,16 +24,16 @@
     <div id="panel">
         <div id="sections">
             <ul>
-                <li class="section-button">Console</li>
-                <li class="section-button">Info</li>
+                <li class="section-button" onclick="location.href='/console'">Console</li>
+                <li class="section-button" onclick="location.href='/info'">Info</li>
                 <li class="section-button">Logs</li>
                 <li class="section-button">Files</li>
             </ul>
         </div>
         <div id="control">
             <ul>
-                <li class="control-button" onclick="handleInput('/start')">Start</li>
-                <li class="control-button" onclick="handleInput('/stop')">Stop</li>
+                <li class="control-button" onclick="handleButton('start')">Start</li>
+                <li class="control-button" onclick="handleButton('stop')">Stop</li>
             </ul>
             <div id="controlStatus" title="stopped"></div>
         </div>

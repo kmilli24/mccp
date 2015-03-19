@@ -1,27 +1,6 @@
 __author__ = 'drazisil'
 
 
-class WebPage(object):
-    def __init__(self, title, head, body):
-        self.__title = title
-        self.__head = head
-        self.__body = body
-
-    def render(self):
-        eol = "\n"
-        html = '<html>' + eol + \
-               '<head>' + eol + \
-               '<title>MCCP: ' + self.__title + '</title>' + eol + \
-               '<meta http-equiv="refresh" content="3">' + eol + \
-               self.__head + eol + \
-               '</head>' + eol + \
-               '<body>' + eol + \
-               self.__body + eol + \
-               '</body>' + eol + \
-               '</html>'
-        return html
-
-
 class WebTemplate(object):
     def __init__(self, title, content):
         self.__title = title
@@ -37,6 +16,7 @@ class WebTemplate(object):
                '<link href="http://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">' + eol + \
                '<link rel="stylesheet" type="text/css" href="/css/core.css"/>' + eol + \
                '<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>' + eol + \
+               '<script src="/js/core.js"></script>' + eol + \
                '<script src="/js/buttons.js"></script>' + eol + \
                '</head>' + eol + \
                '<body>' + eol + \
@@ -53,8 +33,8 @@ class WebTemplate(object):
                '<div id="panel">' + eol + \
                '<div id="sections">' + eol + \
                '<ul>' + eol + \
-               '<li class="section-button">Console</li>' + eol + \
-               '<li class="section-button">Info</li>' + eol + \
+               '<li class="section-button" onclick="location.href=\'/console\'">Console</li>' + eol + \
+               '<li class="section-button" onclick="location.href=\'/info\'">Info</li>' + eol + \
                '<li class="section-button">Logs</li>' + eol + \
                '<li class="section-button">Files</li>' + eol + \
                '</ul>' + eol + \
