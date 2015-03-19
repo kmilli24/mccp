@@ -35,7 +35,7 @@ class MineCraftServerProcess(protocol.ProcessProtocol):
         self.__log_path = self.__home + '/logs/mccp.log'
         logging.basicConfig(filename=self.__log_path,
                             level=logging.DEBUG,
-                            format='[%(asctime)s] [%(name)s/%(level_name)s] %(message)s')
+                            format='[%(asctime)s] [%(name)s/%(levelname)s] %(message)s')
         self.__logger = logging.getLogger('Mccp')
         # TODO: Not sure why this is needed
         self.__exec = 'java'
