@@ -14,20 +14,20 @@ from twisted.internet import protocol, reactor
 class MineCraftServerProcess(protocol.ProcessProtocol):
     def __init__(self, io, config):
         self.__version = '1.0'
+
+        # hooks to other systems
         # io handler for console support
         self.__io = io
+        # config settings from mccp.cfg
+        self.config = config
         # process id for process control
         self.__proc_id = None
         # instance of the web server for output
         self.__web_server = None
-        # time of last update to web
-        self.web_last_update = time.time()
-        # contents of web update
-        self.web_update = ['MCCP ' + self.__version]
+
         # minecraft server port
-        self.__mc_port = 25567  # needs to be moved to the config section
-        # config settings from mccp.cfg
-        self.config = config
+        self.mc_port = 25567  # needs to be moved to the config section
+
         # min memory for java
         self.__minMemory = 2048
         # max memory for java
@@ -49,6 +49,12 @@ class MineCraftServerProcess(protocol.ProcessProtocol):
 
         # set server state to stopped
         self.__status = 'stopped'
+
+        # create initial web update
+        # time of last update to web
+        self.web_last_update = time.time()
+        # contents of web update
+        self.web_update = ['MCCP ' + self.__version]
 
         # log that mccp is starting
         self.__logger.info('Starting MCCP ' + self.__version)
