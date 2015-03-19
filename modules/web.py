@@ -132,7 +132,7 @@ class RcCmd(Resource):
             button = cgi.escape(request.args["button"][0])
             if button == 'logout':
                 session.username = ''
-                return Redirect('/core').render(request)
+                return Redirect('/console').render(request)
             elif not session.username == '':
                 if button == 'start':
                     # only send the command to the server if logged in
