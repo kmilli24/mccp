@@ -14,26 +14,43 @@ from twisted.internet import protocol, reactor
 class MineCraftServerProcess(protocol.ProcessProtocol):
     def __init__(self, io, config):
         self.__version = '1.0'
+        # io handler for console support
         self.__io = io
+        # process id for process control
         self.__proc_id = None
+        # instance of the web server for output
         self.__web_server = None
+        # time of last update to web
         self.web_last_update = time.time()
+        # contents of web update
         self.web_update = ['MCCP ' + self.__version]
+        # minecraft server port
         self.__mc_port = 25567  # needs to be moved to the config section
+        # config settings from mccp.cfg
         self.config = config
+        # min memory for java
         self.__minMemory = 2048
+        # max memory for java
         self.__maxMemory = 3072
+        # home directory for minecraft server
         self.__home = config.getConfig('Servers', 'home_path')
+        # log path for mccp
         self.__log_path = self.__home + '/logs/mccp.log'
         logging.basicConfig(filename=self.__log_path,
                             level=logging.DEBUG,
                             format='[%(asctime)s] [%(name)s/%(levelname)s] %(message)s')
         self.__logger = logging.getLogger('Mccp')
-        self.__status = 'stopped'
+        # TODO: Not sure why this is needed
         self.__exec = 'java'
+        # server jar path and name
         self.__server_jar = config.getConfig('Servers', 'server_jar')
         self.__args = (r"java", "-Xmx%dm" % self.__maxMemory, "-Xms%dm" % self.__minMemory,
                        "-XX:PermSize=256m", "-jar", self.__home + self.__server_jar, "nogui")
+
+        # set server state to stopped
+        self.__status = 'stopped'
+
+        # log that mccp is starting
         self.__logger.info('Starting MCCP ' + self.__version)
 
     def connectionMade(self):
