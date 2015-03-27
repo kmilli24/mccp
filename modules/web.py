@@ -1,8 +1,8 @@
 import cgi
 import sys
+import json
 
 from twisted.internet.error import CannotListenError
-
 from twisted.python.components import registerAdapter
 from twisted.internet import reactor
 from twisted.web import server
@@ -11,7 +11,6 @@ from twisted.web.server import Session
 from twisted.web.static import File
 from twisted.web.util import Redirect
 from zope.interface import Interface, Attribute, implements
-import simplejson as json
 
 from modules.page import WebTemplate
 
