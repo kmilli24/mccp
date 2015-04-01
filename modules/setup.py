@@ -14,7 +14,10 @@ class MccpSetup(object):
     def set_config_defaults(self, section):
         if section == 'Servers':
             self.__config.add_section('Servers')
-            self.__config.set('Servers', 'home_path', r"/media/Matrix/mc-server-forge-1.8.3")
+            home_path = ''
+            while home_path == '':
+                home_path = raw_input('Minecraft path : ')
+            self.__config.set('Servers', 'home_path', home_path or r"/media/Matrix/mc-server-forge-1.8.3")
             self.__config.set('Servers', 'server_jar', r"/forge-1.8-11.14.1.1322-universal.jar")
             server_port = raw_input('Server port [25565] : ')
             self.__config.set('Servers', 'server_port', server_port or '25565')
